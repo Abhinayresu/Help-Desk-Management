@@ -1,11 +1,6 @@
-# Exclude all HTML, Razor views, CSS, and JS recursively from language stats
-*.html linguist-vendored
-**/*.html linguist-vendored
-*.cshtml linguist-vendored
-**/*.cshtml linguist-vendored
-*.css linguist-vendored
-**/*.css linguist-vendored
-*.js linguist-vendored
-**/*.js linguist-vendored
+# Exclude only the specific root-level documentation HTML files so the project's actual Razor (.cshtml), CSS, and JS files are counted in the stats
+project_documentation.html linguist-vendored
+questions_and_answers.html linguist-vendored
+observation_report.html linguist-vendored
 *.pdf linguist-vendored
 *.zip linguist-vendored
