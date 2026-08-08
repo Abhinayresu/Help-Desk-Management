@@ -1,4 +1,11 @@
-# Mark all HTML files as vendored (third-party/libraries) so they are completely excluded from language statistics
+# Exclude all HTML, Razor views, CSS, and JS recursively from language stats
 *.html linguist-vendored
+**/*.html linguist-vendored
+*.cshtml linguist-vendored
+**/*.cshtml linguist-vendored
+*.css linguist-vendored
+**/*.css linguist-vendored
+*.js linguist-vendored
+**/*.js linguist-vendored
 *.pdf linguist-vendored
 *.zip linguist-vendored
