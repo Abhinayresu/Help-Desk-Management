@@ -1,6 +1,12 @@
-# Exclude only the specific root-level documentation HTML files so the project's actual Razor (.cshtml), CSS, and JS files are counted in the stats
-project_documentation.html linguist-vendored
-questions_and_answers.html linguist-vendored
-observation_report.html linguist-vendored
-*.pdf linguist-vendored
-*.zip linguist-vendored
+# Exclude the massive root-level documentation HTML files completely
+project_documentation.html linguist-vendored=true
+questions_and_answers.html linguist-vendored=true
+observation_report.html linguist-vendored=true
+
+project_documentation.html linguist-documentation=true
+questions_and_answers.html linguist-documentation=true
+observation_report.html linguist-documentation=true
+
+# Keep actual project assets (Razor, CSS, JS) countable
+*.cshtml linguist-language=html
+**/*.cshtml linguist-language=html
