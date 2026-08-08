@@ -32,4 +32,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-// End of Program.cs - trigger stats recalculation 
+// End of Program.cs - trigger stats recalculation  
