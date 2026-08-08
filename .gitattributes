@@ -1,0 +1,5 @@
+# Tell GitHub to treat HTML files as documentation so they don't count towards repository language statistics
+*.html linguist-documentation=true
+*.html linguist-detectable=false
+*.pdf linguist-documentation=true
+*.zip linguist-detectable=false
