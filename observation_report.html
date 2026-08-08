@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Observation Report - RAG Assignment</title>
+    <style>
+        @page { size: A4; margin: 15mm; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; font-size: 13px; line-height: 1.6; }
+        .header { border-bottom: 3px solid #2563eb; padding-bottom: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .title { font-size: 20px; font-weight: bold; color: #0f172a; }
+        .subtitle { font-size: 12px; color: #64748b; }
+        .badge { background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; font-size: 11px; text-align: right; }
+        h2 { font-size: 15px; font-weight: bold; background: #f8fafc; border-left: 4px solid #2563eb; padding: 6px 10px; margin-top: 18px; margin-bottom: 10px; }
+        p { margin-bottom: 12px; color: #334155; text-align: justify; }
+        ul { margin-left: 20px; margin-bottom: 15px; }
+        li { margin-bottom: 6px; }
+        .box { background: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 6px; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <div class="title">Observation Report - RAG Knowledge Assistant</div>
+            <div class="subtitle">Retrieval-Augmented Generation Performance Evaluation</div>
+        </div>
+        <div class="badge">
+            <strong>Student Name:</strong> RESU ABHINAY<br>
+            <strong>Application No:</strong> 23BAI10545
+        </div>
+    </div>
+
+    <h2>1. Did the AI correctly answer the questions present in the document?</h2>
+    <p>
+        <strong>Yes, perfectly.</strong> When asked the 10 domain-specific questions about the <code>HelpDeskTicketManagement</code> application, the AI retrieved the exact relevant passages from the uploaded project documentation. It accurately identified project architecture, tech stack details (.NET 8, EF Core, xUnit, Moq), entity schemas, endpoint routes, business rules (e.g., hardcoding status to Open on ticket creation), and validation limits.
+    </p>
+
+    <h2>2. How did the AI respond to questions that were NOT available in the document?</h2>
+    <p>
+        <strong>With strict domain constraint and zero hallucination.</strong> When queried with 5 out-of-scope questions (such as asking for Microsoft's CEO or general AI/ML definitions), the AI consistently responded with a strict refusal message stating that the requested information was not available in the uploaded document. It did not attempt to generate facts from outside training weights, demonstrating the primary security and accuracy benefit of RAG systems.
+    </p>
+
+    <h2>3. What did you learn about Retrieval-Augmented Generation (RAG)?</h2>
+    <p>
+        RAG enhances Large Language Models (LLMs) by combining retrieval mechanisms with generative capabilities:
+    </p>
+    <ul>
+        <li><strong>Private Knowledge Access:</strong> Enables LLMs to reason over private corporate repositories without requiring expensive fine-tuning.</li>
+        <li><strong>Elimination of Hallucinations:</strong> Grounding AI responses strictly in retrieved chunks prevents false or misleading statements.</li>
+        <li><strong>Real-time Information Updates:</strong> Project documentation updates are immediately reflected in AI answers simply by updating vector embeddings, eliminating model re-training delays.</li>
+    </ul>
+
+    <h2>4. Real-World Applications of RAG Systems</h2>
+    <div class="box">
+        <ul>
+            <li><strong>Enterprise Software Documentation Assistants:</strong> Onboarding new developers by allowing them to ask technical questions about internal codebases, architecture, and deployment procedures.</li>
+            <li><strong>Customer Support &amp; Help Desk Systems:</strong> Automatically answering user support tickets by querying internal product manuals and knowledge base articles.</li>
+            <li><strong>Legal &amp; Compliance Contract Analysis:</strong> Querying massive legal repositories and vendor contracts to extract specific clauses, terms, and compliance obligations.</li>
+        </ul>
+    </div>
+</body>
+</html>

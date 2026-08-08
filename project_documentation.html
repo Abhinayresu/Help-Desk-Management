@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HelpDeskTicketManagement - Project Documentation</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 15mm 15mm 15mm 15mm;
+            @bottom-right {
+                content: "Page " counter(page) " of " counter(pages);
+            }
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            color: #1e293b;
+            background-color: #ffffff;
+            line-height: 1.5;
+            font-size: 13px;
+        }
+
+        .page {
+            width: 100%;
+            min-height: 260mm;
+            padding: 5mm 0;
+            page-break-after: always;
+            position: relative;
+        }
+
+        .page:last-child {
+            page-break-after: avoid;
+        }
+
+        /* Header & Metadata */
+        .doc-header {
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .doc-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+        }
+
+        .doc-subtitle {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 3px;
+        }
+
+        .student-badge {
+            background-color: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 11px;
+            line-height: 1.4;
+            color: #334155;
+            text-align: right;
+        }
+
+        .student-badge strong {
+            color: #0f172a;
+            font-size: 12px;
+        }
+
+        /* Headings */
+        h2 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e293b;
+            border-left: 4px solid #2563eb;
+            padding-left: 10px;
+            margin-top: 18px;
+            margin-bottom: 10px;
+            background-color: #f8fafc;
+            padding-top: 4px;
+            padding-bottom: 4px;
+        }
+
+        h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #334155;
+            margin-top: 12px;
+            margin-bottom: 6px;
+        }
+
+        p {
+            margin-bottom: 10px;
+            color: #334155;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 12px;
+            color: #334155;
+        }
+
+        li {
+            margin-bottom: 4px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            font-size: 12px;
+        }
+
+        th {
+            background-color: #1e293b;
+            color: #ffffff;
+            font-weight: 600;
+            text-align: left;
+            padding: 8px 10px;
+            border: 1px solid #0f172a;
+        }
+
+        td {
+            padding: 7px 10px;
+            border: 1px solid #cbd5e1;
+            color: #334155;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            font-size: 10px;
+            font-weight: 600;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .badge-open { background-color: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+        .badge-progress { background-color: #e0f2fe; color: #075985; border: 1px solid #bae6fd; }
+        .badge-closed { background-color: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        
+        .badge-high { background-color: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+        .badge-med { background-color: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+        .badge-low { background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+        /* Architecture Diagram Box */
+        .diagram-box {
+            background-color: #0f172a;
+            color: #f8fafc;
+            border-radius: 8px;
+            padding: 14px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 11px;
+            line-height: 1.4;
+            margin: 12px 0;
+            white-space: pre;
+            overflow-x: auto;
+            border: 1px solid #334155;
+        }
+
+        /* UI Mockup Container */
+        .mockup-card {
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .mockup-header {
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 8px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mockup-body {
+            padding: 12px;
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .stat-box {
+            padding: 10px;
+            border-radius: 6px;
+            color: #ffffff;
+        }
+        .sb-blue { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+        .sb-amber { background: linear-gradient(135deg, #d97706, #b45309); }
+        .sb-sky { background: linear-gradient(135deg, #0284c7, #0369a1); }
+        .sb-green { background: linear-gradient(135deg, #059669, #047857); }
+
+        .sb-val { font-size: 18px; font-weight: 700; }
+        .sb-lbl { font-size: 9px; opacity: 0.9; text-transform: uppercase; }
+
+        .footer-note {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 6px;
+            font-size: 10px;
+            color: #94a3b8;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PAGE 1 -->
+    <div class="page">
+        <div class="doc-header">
+            <div>
+                <div class="doc-title">HelpDeskTicketManagement System</div>
+                <div class="doc-subtitle">Comprehensive Project Technical Documentation</div>
+            </div>
+            <div class="student-badge">
+                <strong>Student Name:</strong> RESU ABHINAY<br>
+                <strong>Application No:</strong> 23BAI10545<br>
+                <strong>Course:</strong> ASP.NET Core & Enterprise Development
+            </div>
+        </div>
+
+        <h2>1. Project Overview</h2>
+        <p>
+            The <strong>HelpDeskTicketManagement System</strong> is a full-stack enterprise web application designed to streamline software, hardware, and network support requests across an organization. Built on <strong>.NET 8.0</strong>, the project adheres to standard software engineering patterns, implementing a decoupled <strong>ASP.NET Core Web API</strong> service backend, an <strong>ASP.NET Core MVC</strong> web application client, and an <strong>xUnit</strong> automated unit testing project.
+        </p>
+        <p>
+            The architecture follows a strict separation of concerns through the <strong>Repository Pattern</strong> and Entity Framework Core (EF Core). The MVC application interacts exclusively with the Web API via an asynchronous <code>HttpClient</code> service layer, ensuring complete isolation of database access and security boundaries.
+        </p>
+
+        <h2>2. Objective of the Application</h2>
+        <p>
+            The primary objective of the Help Desk Ticket Management System is to provide employees and IT staff with an intuitive, efficient platform to record, track, update, and resolve internal support tickets.
+        </p>
+        <ul>
+            <li><strong>Ticket Lifecycle Management:</strong> Enable employees to raise tickets for IT issues and track resolution state.</li>
+            <li><strong>Tiered Priority Categorization:</strong> Categorize support requests into <code>Low</code>, <code>Medium</code>, and <code>High</code> priority queues.</li>
+            <li><strong>Status Workflow Tracking:</strong> Monitor ticket progression across three distinct states: <code>Open</code>, <code>In Progress</code>, and <code>Closed</code>.</li>
+            <li><strong>Decoupled Architecture:</strong> Enforce strict SOA (Service-Oriented Architecture) where frontend clients communicate exclusively via RESTful APIs.</li>
+            <li><strong>Automated Quality Assurance:</strong> Guarantee code stability and regression-free controller execution via isolated unit tests using xUnit and Moq.</li>
+        </ul>
+
+        <h2>3. Technologies Used</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Technology Component</th>
+                    <th>Specification / Framework</th>
+                    <th>Role in Project</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Framework &amp; SDK</strong></td>
+                    <td>.NET 8.0 SDK (C# 12)</td>
+                    <td>Core execution runtime for Web API, MVC, and Tests</td>
+                </tr>
+                <tr>
+                    <td><strong>Web API Service</strong></td>
+                    <td>ASP.NET Core REST API</td>
+                    <td>Exposes RESTful endpoints for CRUD operations</td>
+                </tr>
+                <tr>
+                    <td><strong>Frontend Client</strong></td>
+                    <td>ASP.NET Core MVC (Razor Views)</td>
+                    <td>Consumes Web API via HttpClient and renders HTML UI</td>
+                </tr>
+                <tr>
+                    <td><strong>ORM &amp; Database</strong></td>
+                    <td>EF Core 8.0 (SQLite / LocalDB)</td>
+                    <td>Object-Relational Mapping &amp; Data Persistence</td>
+                </tr>
+                <tr>
+                    <td><strong>Architectural Pattern</strong></td>
+                    <td>Repository Pattern (ITicketRepository)</td>
+                    <td>Encapsulates data access and isolates business logic</td>
+                </tr>
+                <tr>
+                    <td><strong>Unit Testing</strong></td>
+                    <td>xUnit 2.5 &amp; Moq 4.20</td>
+                    <td>Mock repository interfaces and test controller actions</td>
+                </tr>
+                <tr>
+                    <td><strong>Styling &amp; UX</strong></td>
+                    <td>HTML5, Custom CSS3, Bootstrap 5</td>
+                    <td>Glassmorphism responsive UI layout and status badges</td>
+                </tr>
+                <tr>
+                    <td><strong>Version Control</strong></td>
+                    <td>Git &amp; GitHub Repository</td>
+                    <td>Source code version control and code submission</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer-note">
+            <span>HelpDeskTicketManagement - Official Documentation</span>
+            <span>RESU ABHINAY (23BAI10545)</span>
+        </div>
+    </div>
+
+    <!-- PAGE 2 -->
+    <div class="page">
+        <div class="doc-header">
+            <div>
+                <div class="doc-title">HelpDeskTicketManagement System</div>
+                <div class="doc-subtitle">Modules, Business Rules &amp; Validations</div>
+            </div>
+            <div class="student-badge">
+                <strong>Student Name:</strong> RESU ABHINAY<br>
+                <strong>Application No:</strong> 23BAI10545
+            </div>
+        </div>
+
+        <h2>4. Functional Modules</h2>
+        <p>The solution is divided into three distinct solution projects:</p>
+
+        <h3>Module A: HelpDesk.Api (ASP.NET Core Web API Project)</h3>
+        <ul>
+            <li><strong>Model Layer (<code>Ticket.cs</code>):</strong> Defines the core domain entity representing support requests.</li>
+            <li><strong>Data Context Layer (<code>HelpDeskDbContext.cs</code>):</strong> EF Core DbContext managing SQLite database transactions and initial seed data.</li>
+            <li><strong>Repository Layer (<code>ITicketRepository</code> &amp; <code>TicketRepository</code>):</strong> Encapsulates all LINQ database operations asynchronously.</li>
+            <li><strong>API Controller Layer (<code>TicketController.cs</code>):</strong> Exposes REST API endpoints returning standard HTTP status codes (200 OK, 400 Bad Request, 404 Not Found).</li>
+        </ul>
+
+        <h3>Module B: HelpDesk.Mvc (ASP.NET Core MVC Client Project)</h3>
+        <ul>
+            <li><strong>Service Layer (<code>TicketService.cs</code>):</strong> Implements <code>ITicketService</code> to execute asynchronous HTTP GET, POST, PUT, and DELETE calls to the Web API.</li>
+            <li><strong>ViewModel Layer (<code>TicketViewModel</code>, <code>DashboardViewModel</code>, <code>TicketFilterViewModel</code>):</strong> Structures data for Razor view rendering and user form validation.</li>
+            <li><strong>UI Controllers &amp; Views (<code>TicketController</code> &amp; Razor Views):</strong> Renders Dashboard, View All, Ticket Details, Raise Ticket, Edit Ticket, and Filter Status views.</li>
+        </ul>
+
+        <h3>Module C: HelpDesk.Tests (xUnit Test Project)</h3>
+        <ul>
+            <li>Contains isolated unit tests mocking <code>ITicketRepository</code> using Moq to verify HTTP response types without accessing a real database.</li>
+        </ul>
+
+        <h2>5. Database Table Structure</h2>
+        <p>The primary entity stored in the database is the <strong>Ticket</strong> table:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Data Type</th>
+                    <th>Constraints</th>
+                    <th>Allowed / Default Values</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>Id</code></td>
+                    <td>INTEGER</td>
+                    <td>Primary Key, Auto-Increment</td>
+                    <td>1, 2, 3...</td>
+                    <td>Unique ticket identifier</td>
+                </tr>
+                <tr>
+                    <td><code>Title</code></td>
+                    <td>TEXT (NVARCHAR)</td>
+                    <td>NOT NULL, Max 100</td>
+                    <td>User string input</td>
+                    <td>Short summary of the issue</td>
+                </tr>
+                <tr>
+                    <td><code>Description</code></td>
+                    <td>TEXT (NVARCHAR)</td>
+                    <td>NOT NULL, Max 1000</td>
+                    <td>User string input</td>
+                    <td>Detailed description of issue</td>
+                </tr>
+                <tr>
+                    <td><code>Priority</code></td>
+                    <td>TEXT (NVARCHAR)</td>
+                    <td>NOT NULL</td>
+                    <td><code>Low</code>, <code>Medium</code>, <code>High</code></td>
+                    <td>Ticket priority level</td>
+                </tr>
+                <tr>
+                    <td><code>Status</code></td>
+                    <td>TEXT (NVARCHAR)</td>
+                    <td>NOT NULL</td>
+                    <td><code>Open</code>, <code>In Progress</code>, <code>Closed</code></td>
+                    <td>Current status state</td>
+                </tr>
+                <tr>
+                    <td><code>RaisedBy</code></td>
+                    <td>TEXT (NVARCHAR)</td>
+                    <td>NOT NULL</td>
+                    <td>User string input</td>
+                    <td>Name/ID of employee</td>
+                </tr>
+                <tr>
+                    <td><code>CreatedDate</code></td>
+                    <td>DATETIME</td>
+                    <td>NOT NULL</td>
+                    <td>UTC Timestamp</td>
+                    <td>Creation timestamp</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>6. Business &amp; Validation Rules</h2>
+        <ul>
+            <li><strong>Status Hardcoding Rule:</strong> When raising a new ticket via the MVC UI, the <code>Status</code> property is automatically hardcoded to <code>Open</code>.</li>
+            <li><strong>Priority Dropdown Rule:</strong> Users must explicitly select a priority level from a predefined dropdown containing <code>Low</code>, <code>Medium</code>, and <code>High</code>.</li>
+            <li><strong>Status Progression Rule:</strong> Only the Edit Ticket module allows updating ticket status to <code>In Progress</code> or <code>Closed</code>.</li>
+            <li><strong>Decoupling Enforcement:</strong> The MVC project must not reference EF Core or DbContext; all data access is routed through the Web API endpoint via <code>HttpClient</code>.</li>
+            <li><strong>Form Validation Rules:</strong>
+                <ul>
+                    <li><code>Title</code>: Required field, length must be between 1 and 100 characters.</li>
+                    <li><code>Description</code>: Required field, length must be between 1 and 1000 characters.</li>
+                    <li><code>RaisedBy</code>: Required field.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="footer-note">
+            <span>HelpDeskTicketManagement - Official Documentation</span>
+            <span>RESU ABHINAY (23BAI10545)</span>
+        </div>
+    </div>
+
+    <!-- PAGE 3 -->
+    <div class="page">
+        <div class="doc-header">
+            <div>
+                <div class="doc-title">HelpDeskTicketManagement System</div>
+                <div class="doc-subtitle">API Contracts &amp; Application Workflow</div>
+            </div>
+            <div class="student-badge">
+                <strong>Student Name:</strong> RESU ABHINAY<br>
+                <strong>Application No:</strong> 23BAI10545
+            </div>
+        </div>
+
+        <h2>7. Web API Endpoint Specification</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>HTTP Method</th>
+                    <th>API Endpoint URL</th>
+                    <th>Request Payload</th>
+                    <th>Success Response</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GET</code></td>
+                    <td><code>/api/Ticket/All</code></td>
+                    <td>None</td>
+                    <td><code>200 OK</code> (List&lt;Ticket&gt;)</td>
+                    <td>Retrieves all support tickets</td>
+                </tr>
+                <tr>
+                    <td><code>GET</code></td>
+                    <td><code>/api/Ticket/{id}</code></td>
+                    <td>None</td>
+                    <td><code>200 OK</code> / <code>404 Not Found</code></td>
+                    <td>Retrieves ticket by ID</td>
+                </tr>
+                <tr>
+                    <td><code>POST</code></td>
+                    <td><code>/api/Ticket</code></td>
+                    <td>JSON Ticket Object</td>
+                    <td><code>200 OK</code> (Ticket ID) / <code>400 Bad</code></td>
+                    <td>Creates a new support ticket</td>
+                </tr>
+                <tr>
+                    <td><code>PUT</code></td>
+                    <td><code>/api/Ticket/{id}</code></td>
+                    <td>JSON Ticket Object</td>
+                    <td><code>200 OK</code> / <code>404 Not Found</code></td>
+                    <td>Updates existing ticket</td>
+                </tr>
+                <tr>
+                    <td><code>DELETE</code></td>
+                    <td><code>/api/Ticket/{id}</code></td>
+                    <td>None</td>
+                    <td><code>200 OK</code> / <code>404 Not Found</code></td>
+                    <td>Deletes ticket by ID</td>
+                </tr>
+                <tr>
+                    <td><code>GET</code></td>
+                    <td><code>/api/Ticket/Status/{status}</code></td>
+                    <td>None</td>
+                    <td><code>200 OK</code> (List&lt;Ticket&gt;)</td>
+                    <td>Filters tickets by status</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>8. Application Architecture &amp; Workflow Diagram</h2>
+        <div class="diagram-box">
++-----------------------------------------------------------------------------------+
+|                            USER INTERFACE (Browser)                               |
+|          [ Dashboard | All Tickets | Raise Ticket | Edit | Filter ]              |
++-----------------------------------------+-----------------------------------------+
+                                          | HTTP Request
+                                          v
++-----------------------------------------------------------------------------------+
+|                        ASP.NET CORE MVC CLIENT (HelpDesk.Mvc)                      |
+|  TicketController ---> ITicketService ---> TicketService (HttpClient)             |
++-----------------------------------------+-----------------------------------------+
+                                          | REST API Call (JSON over HTTP)
+                                          v
++-----------------------------------------------------------------------------------+
+|                        ASP.NET CORE WEB API (HelpDesk.Api)                         |
+|  TicketController ---> ITicketRepository ---> TicketRepository                    |
++-----------------------------------------+-----------------------------------------+
+                                          | LINQ / Entity Framework Core
+                                          v
++-----------------------------------------------------------------------------------+
+|                         DATABASE LAYER (HelpDeskDbContext)                        |
+|                                [ SQLite Database ]                                |
++-----------------------------------------------------------------------------------+
+        </div>
+
+        <h2>9. Automated Unit Testing (xUnit &amp; Moq)</h2>
+        <p>The <code>HelpDesk.Tests</code> project contains 11 automated test cases verifying <code>TicketController</code> responses:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Test Case Name</th>
+                    <th>Mock Setup</th>
+                    <th>Expected Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><code>GetAllTickets_ReturnsOkResult_WhenTicketsExist</code></td>
+                    <td>Returns list of 2 tickets</td>
+                    <td>OkObjectResult with 2 items</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><code>GetTicketById_ReturnsOkResult_WhenTicketExists</code></td>
+                    <td>Returns ticket with Id 1</td>
+                    <td>OkObjectResult with matching ID</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><code>GetTicketById_ReturnsNotFound_WhenTicketDoesNotExist</code></td>
+                    <td>Returns null for Id 999</td>
+                    <td>NotFoundResult (404)</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><code>CreateTicket_ReturnsOkResult_WhenTicketIsCreatedSuccessfully</code></td>
+                    <td>Returns generated ID 10</td>
+                    <td>OkObjectResult with ID 10</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td><code>CreateTicket_ReturnsBadRequest_WhenTicketIsNull</code></td>
+                    <td>Passes null ticket payload</td>
+                    <td>BadRequestObjectResult (400)</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td><code>GetTicketsByStatus_ReturnsOkResult_WhenMatchingTicketExist</code></td>
+                    <td>Returns matching Open tickets</td>
+                    <td>OkObjectResult with Open items</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer-note">
+            <span>HelpDeskTicketManagement - Official Documentation</span>
+            <span>RESU ABHINAY (23BAI10545)</span>
+        </div>
+    </div>
+
+    <!-- PAGE 4 -->
+    <div class="page">
+        <div class="doc-header">
+            <div>
+                <div class="doc-title">HelpDeskTicketManagement System</div>
+                <div class="doc-subtitle">User Interface Views &amp; Screen Layouts</div>
+            </div>
+            <div class="student-badge">
+                <strong>Student Name:</strong> RESU ABHINAY<br>
+                <strong>Application No:</strong> 23BAI10545
+            </div>
+        </div>
+
+        <h2>10. UI Screen Mockups &amp; View Layouts</h2>
+
+        <!-- Dashboard Mockup -->
+        <div class="mockup-card">
+            <div class="mockup-header">
+                <span>View A: Dashboard View (http://localhost:5050/Ticket/Dashboard)</span>
+                <span class="badge badge-progress">Live UI</span>
+            </div>
+            <div class="mockup-body">
+                <div style="font-size: 13px; font-weight: bold; margin-bottom: 8px;">Help Desk Dashboard Overview</div>
+                <div class="grid-4" style="margin-bottom: 10px;">
+                    <div class="stat-box sb-blue">
+                        <div class="sb-lbl">Total Tickets</div>
+                        <div class="sb-val">3</div>
+                    </div>
+                    <div class="stat-box sb-amber">
+                        <div class="sb-lbl">Open Tickets</div>
+                        <div class="sb-val">1</div>
+                    </div>
+                    <div class="stat-box sb-sky">
+                        <div class="sb-lbl">In Progress</div>
+                        <div class="sb-val">1</div>
+                    </div>
+                    <div class="stat-box sb-green">
+                        <div class="sb-lbl">Closed Tickets</div>
+                        <div class="sb-val">1</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- All Tickets View Mockup -->
+        <div class="mockup-card">
+            <div class="mockup-header">
+                <span>View B: All Tickets Data Table (http://localhost:5050/Ticket/Index)</span>
+                <span class="badge badge-progress">Live UI</span>
+            </div>
+            <div class="mockup-body">
+                <table style="margin: 0; font-size: 10px;">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Raised By</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#1</td>
+                            <td>VPN Access Issue</td>
+                            <td><span class="badge badge-high">High</span></td>
+                            <td><span class="badge badge-open">Open</span></td>
+                            <td>John Doe</td>
+                            <td>[Details] [Edit] [Delete]</td>
+                        </tr>
+                        <tr>
+                            <td>#2</td>
+                            <td>Software License Request</td>
+                            <td><span class="badge badge-med">Medium</span></td>
+                            <td><span class="badge badge-progress">In Progress</span></td>
+                            <td>Jane Smith</td>
+                            <td>[Details] [Edit] [Delete]</td>
+                        </tr>
+                        <tr>
+                            <td>#3</td>
+                            <td>Monitor Flicker</td>
+                            <td><span class="badge badge-low">Low</span></td>
+                            <td><span class="badge badge-closed">Closed</span></td>
+                            <td>Alex Johnson</td>
+                            <td>[Details] [Edit] [Delete]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Raise New Ticket View Mockup -->
+        <div class="mockup-card">
+            <div class="mockup-header">
+                <span>View C: Raise New Ticket Form (http://localhost:5050/Ticket/Create)</span>
+                <span class="badge badge-progress">Live UI</span>
+            </div>
+            <div class="mockup-body">
+                <div style="font-size: 11px; margin-bottom: 6px;">Title: [ Keyboard replacement request_______ ]</div>
+                <div style="font-size: 11px; margin-bottom: 6px;">Description: [ Mechanical keys stuck on laptop_______ ]</div>
+                <div class="grid-2">
+                    <div style="font-size: 11px;">Priority: [ Dropdown: High | Medium | Low ]</div>
+                    <div style="font-size: 11px;">Raised By: [ RESU ABHINAY ]</div>
+                </div>
+                <div style="margin-top: 8px; font-size: 10px; color: #fbbf24;">Status: Open (Auto-assigned per business rule)</div>
+            </div>
+        </div>
+
+        <!-- Filter Status View Mockup -->
+        <div class="mockup-card">
+            <div class="mockup-header">
+                <span>View D: Filter Tickets by Status (http://localhost:5050/Ticket/Filter?status=Open)</span>
+                <span class="badge badge-progress">Live UI</span>
+            </div>
+            <div class="mockup-body">
+                <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px;">
+                    <span style="font-size: 11px;">Select Status Filter:</span>
+                    <span class="badge badge-open">Open</span>
+                    <span class="badge badge-progress">In Progress</span>
+                    <span class="badge badge-closed">Closed</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <span>HelpDeskTicketManagement - Official Documentation</span>
+            <span>RESU ABHINAY (23BAI10545)</span>
+        </div>
+    </div>
+
+    <!-- PAGE 5 -->
+    <div class="page">
+        <div class="doc-header">
+            <div>
+                <div class="doc-title">HelpDeskTicketManagement System</div>
+                <div class="doc-subtitle">RAG Assistant Q&amp;A &amp; Observation Report</div>
+            </div>
+            <div class="student-badge">
+                <strong>Student Name:</strong> RESU ABHINAY<br>
+                <strong>Application No:</strong> 23BAI10545
+            </div>
+        </div>
+
+        <h2>11. Questions &amp; Answers for RAG Knowledge Assistant</h2>
+
+        <h3>Section A: 10 Questions Answerable from Project Documentation</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Question</th>
+                    <th>Expected AI Response Grounded in Documentation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>What is the objective of the HelpDeskTicketManagement application?</td>
+                    <td>To streamline software, hardware, and network IT support requests raised by employees.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Which technologies were used to develop the project?</td>
+                    <td>C#, .NET 8.0 SDK, ASP.NET Core Web API, ASP.NET Core MVC, EF Core, SQLite, xUnit, Moq, and Bootstrap 5.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>What database tables are used in the application?</td>
+                    <td>The <code>Ticket</code> database table storing Id, Title, Description, Priority, Status, RaisedBy, and CreatedDate.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>What validations are implemented while creating a ticket?</td>
+                    <td>Title (Max 100 chars), Description (Max 1000 chars), and RaisedBy are required non-null string inputs.</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>What are the supported ticket statuses in the system?</td>
+                    <td>The supported ticket statuses are <code>Open</code>, <code>In Progress</code>, and <code>Closed</code>.</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>What business rule governs the initial status when raising a new ticket?</td>
+                    <td>When a new ticket is raised, its Status property is automatically hardcoded to <code>Open</code>.</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>How does the MVC client communicate with the database?</td>
+                    <td>It does not directly access the database; it consumes Web API endpoints asynchronously via <code>HttpClient</code>.</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>Which unit testing framework and mocking tool are used?</td>
+                    <td>The unit test project uses <strong>xUnit</strong> and <strong>Moq</strong> to mock the <code>ITicketRepository</code> interface.</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>What are the valid priority levels for a ticket?</td>
+                    <td>The valid priority levels are <code>Low</code>, <code>Medium</code>, and <code>High</code>.</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>What API endpoint retrieves tickets filtered by status?</td>
+                    <td>The HTTP GET endpoint <code>/api/Ticket/Status/{status}</code>.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Section B: 5 Questions Not Available in Project Documentation</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Question Out of Scope</th>
+                    <th>Expected AI Behavior (RAG Response)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Who is the CEO of Microsoft?</td>
+                    <td>The uploaded project documentation does not contain information about Microsoft's CEO.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>What is Artificial Intelligence?</td>
+                    <td>The uploaded project documentation does not contain general definitions of Artificial Intelligence.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>What is the capital of Australia?</td>
+                    <td>The provided documentation does not contain geographical information about Australia.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>What is Cloud Computing?</td>
+                    <td>The uploaded documentation does not contain information regarding Cloud Computing.</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>What is Machine Learning?</td>
+                    <td>The uploaded document does not contain definitions or concepts regarding Machine Learning.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>12. RAG Observation Report</h2>
+        <ol>
+            <li><strong>Accuracy on Grounded Questions:</strong> The RAG-based AI model successfully answered all 10 domain-specific questions directly using extracted context from this document.</li>
+            <li><strong>Handling Out-of-Scope Queries:</strong> When queried with 5 out-of-scope questions, the AI correctly identified that the information was missing from the knowledge base and refrained from hallucinating.</li>
+            <li><strong>Key Takeaways on RAG:</strong> Retrieval-Augmented Generation bridges pre-trained LLMs with private, enterprise-specific document repositories, preventing knowledge cutoff limitations.</li>
+            <li><strong>Real-World Enterprise Applications:</strong> Technical documentation lookup, enterprise HR/Policy Q&amp;A assistants, internal customer support portals, and legal contract analysis.</li>
+        </ol>
+
+        <div class="footer-note">
+            <span>HelpDeskTicketManagement - Official Documentation</span>
+            <span>RESU ABHINAY (23BAI10545)</span>
+        </div>
+    </div>
+
+</body>
+</html>

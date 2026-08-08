@@ -1,0 +1,73 @@
+@model HelpDesk.Mvc.Models.TicketViewModel
+@{
+    ViewData["Title"] = "Raise Ticket";
+}
+
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="h2 fw-bold text-info"><i class="bi bi-plus-circle-fill me-2"></i>Raise New Ticket</h1>
+            <p class="text-muted">Submit a new IT support request</p>
+        </div>
+        <div class="col-auto">
+            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                <i class="bi bi-arrow-left me-2"></i>Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-custom border-secondary shadow-lg p-4">
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label text-info fw-semibold"></label>
+                        <input asp-for="Title" class="form-control bg-dark text-white border-secondary" placeholder="Brief summary of the issue" />
+                        <span asp-validation-for="Title" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label text-info fw-semibold"></label>
+                        <textarea asp-for="Description" rows="5" class="form-control bg-dark text-white border-secondary" placeholder="Please provide detailed technical information..."></textarea>
+                        <span asp-validation-for="Description" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label asp-for="Priority" class="form-label text-info fw-semibold"></label>
+                            <select asp-for="Priority" class="form-select bg-dark text-white border-secondary">
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                            <span asp-validation-for="Priority" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="RaisedBy" class="form-label text-info fw-semibold"></label>
+                            <input asp-for="RaisedBy" class="form-control bg-dark text-white border-secondary" placeholder="Your name or employee ID" />
+                            <span asp-validation-for="RaisedBy" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label text-muted fw-semibold">Status (Auto-assigned)</label>
+                        <input class="form-control bg-dark text-muted border-secondary" value="Open" readonly />
+                        <small class="text-info font-monospace">Note: The system automatically assigns 'Open' status to all newly created tickets.</small>
+                    </div>
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary rounded-pill px-5 py-2 shadow-lg">
+                            <i class="bi bi-send-fill me-2"></i>Submit Ticket
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

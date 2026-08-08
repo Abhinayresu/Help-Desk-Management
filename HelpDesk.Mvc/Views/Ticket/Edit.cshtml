@@ -1,0 +1,83 @@
+@model HelpDesk.Mvc.Models.TicketViewModel
+@{
+    ViewData["Title"] = "Edit Ticket";
+}
+
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="h2 fw-bold text-info"><i class="bi bi-pencil-square me-2"></i>Edit Ticket #@Model.Id</h1>
+            <p class="text-muted">Update ticket information, severity priority, or workflow status</p>
+        </div>
+        <div class="col-auto">
+            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary rounded-pill px-4 me-2">
+                Cancel
+            </a>
+            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-custom border-secondary shadow-lg p-4">
+                <form asp-action="Edit" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="RaisedBy" />
+                    <input type="hidden" asp-for="CreatedDate" />
+
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label text-info fw-semibold"></label>
+                        <input asp-for="Title" class="form-control bg-dark text-white border-secondary" />
+                        <span asp-validation-for="Title" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label text-info fw-semibold"></label>
+                        <textarea asp-for="Description" rows="5" class="form-control bg-dark text-white border-secondary"></textarea>
+                        <span asp-validation-for="Description" class="text-danger small"></span>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label asp-for="Priority" class="form-label text-info fw-semibold"></label>
+                            <select asp-for="Priority" class="form-select bg-dark text-white border-secondary">
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                            <span asp-validation-for="Priority" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label asp-for="Status" class="form-label text-info fw-semibold"></label>
+                            <select asp-for="Status" class="form-select bg-dark text-white border-secondary">
+                                <option value="Open">Open</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Closed">Closed</option>
+                            </select>
+                            <span asp-validation-for="Status" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4 text-muted">
+                        <span>Raised By: </span><strong class="text-white">@Model.RaisedBy</strong>
+                        <span class="ms-3">Created On: </span><strong class="text-white">@Model.CreatedDate.ToLocalTime().ToString("g")</strong>
+                    </div>
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-warning rounded-pill px-5 py-2 shadow-lg text-dark fw-bold">
+                            <i class="bi bi-save-fill me-2"></i>Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

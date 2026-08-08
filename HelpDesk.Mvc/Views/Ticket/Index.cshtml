@@ -1,0 +1,135 @@
+@model IEnumerable<HelpDesk.Mvc.Models.TicketViewModel>
+@{
+    ViewData["Title"] = "All Tickets";
+    string currentFilter = ViewBag.CurrentFilter ?? "";
+}
+
+<div class="container py-4">
+    <div class="row mb-4 align-items-center">
+        <div class="col">
+            <h1 class="h2 fw-bold text-info"><i class="bi bi-ticket-detailed-fill me-2"></i>Support Tickets</h1>
+            <p class="text-muted">Manage all support tickets and request lifecycles</p>
+        </div>
+        <div class="col-auto">
+            <a asp-action="Create" class="btn btn-primary rounded-pill px-4 shadow">
+                <i class="bi bi-plus-lg me-2"></i>Raise Ticket
+            </a>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="card card-custom p-3 border-secondary mb-4">
+        <form method="get" asp-action="Index" class="row g-3 align-items-center">
+            <div class="col-auto">
+                <label for="status" class="col-form-label fw-bold text-info"><i class="bi bi-funnel-fill me-1"></i>Filter By Status:</label>
+            </div>
+            <div class="col-auto">
+                <select name="status" id="status" class="form-select bg-dark text-white border-secondary" style="min-width: 180px;">
+                    <!option value="" @(string.IsNullOrEmpty(currentFilter) ? "selected" : "")>All Tickets</!option>
+                    <!option value="Open" @(currentFilter == "Open" ? "selected" : "")>Open</!option>
+                    <!option value="In Progress" @(currentFilter == "In Progress" ? "selected" : "")>In Progress</!option>
+                    <!option value="Closed" @(currentFilter == "Closed" ? "selected" : "")>Closed</!option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-info px-4 rounded-pill">
+                    Apply Filter
+                </button>
+                <a asp-action="Index" class="btn btn-outline-secondary px-4 rounded-pill">
+                    Clear
+                </a>
+            </div>
+            <div class="col text-end">
+                <span class="badge bg-secondary p-2">Showing: @Model.Count() Ticket(s)</span>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tickets Table -->
+    <div class="card card-custom border-secondary shadow-lg overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-dark table-hover table-striped align-middle mb-0">
+                <thead>
+                    <tr class="table-dark-header" style="background-color: #1e293b; color: #38bdf8;">
+                        <th class="ps-4">#</th>
+                        <th>Title</th>
+                        <th>Raised By</th>
+                        <th>Created Date</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th class="text-end pe-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center py-5 text-muted">
+                                <i class="bi bi-ticket-perforated fs-1 d-block mb-3"></i>
+                                No support tickets found matching the criteria.
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var ticket in Model)
+                        {
+                            <tr>
+                                <td class="ps-4 fw-bold text-muted">@ticket.Id</td>
+                                <td>
+                                    <div class="fw-semibold text-white">@ticket.Title</div>
+                                    <small class="text-muted text-truncate d-inline-block" style="max-width: 250px;">
+                                        @ticket.Description
+                                    </small>
+                                </td>
+                                <td>@ticket.RaisedBy</td>
+                                <td>@ticket.CreatedDate.ToLocalTime().ToString("g")</td>
+                                <td>
+                                    @if (ticket.Priority == "High")
+                                    {
+                                        <span class="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 px-3 py-2 rounded-pill">High</span>
+                                    }
+                                    else if (ticket.Priority == "Medium")
+                                    {
+                                        <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-50 px-3 py-2 rounded-pill">Medium</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary bg-opacity-25 text-muted border border-secondary border-opacity-50 px-3 py-2 rounded-pill">Low</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (ticket.Status == "Open")
+                                    {
+                                        <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-50 px-3 py-2 rounded-pill">Open</span>
+                                    }
+                                    else if (ticket.Status == "In Progress")
+                                    {
+                                        <span class="badge bg-info bg-opacity-25 text-info border border-info border-opacity-50 px-3 py-2 rounded-pill">In Progress</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 px-3 py-2 rounded-pill">Closed</span>
+                                    }
+                                </td>
+                                <td class="text-end pe-4">
+                                    <div class="btn-group" role="group">
+                                        <a asp-action="Details" asp-route-id="@ticket.Id" class="btn btn-outline-info btn-sm rounded-pill px-3 me-2" title="Details">
+                                            <i class="bi bi-eye-fill me-1"></i>View
+                                        </a>
+                                        <a asp-action="Edit" asp-route-id="@ticket.Id" class="btn btn-outline-warning btn-sm rounded-pill px-3 me-2" title="Edit">
+                                            <i class="bi bi-pencil-square me-1"></i>Edit
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@ticket.Id" class="btn btn-outline-danger btn-sm rounded-pill px-3" title="Delete">
+                                            <i class="bi bi-trash3-fill me-1"></i>Delete
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

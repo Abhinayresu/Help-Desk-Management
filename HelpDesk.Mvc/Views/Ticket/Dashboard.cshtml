@@ -1,0 +1,120 @@
+@model HelpDesk.Mvc.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container py-4">
+    <div class="row mb-4 align-items-center">
+        <div class="col">
+            <h1 class="h2 fw-bold text-info"><i class="bi bi-speedometer2 me-2"></i>Dashboard</h1>
+            <p class="text-muted">Real-time statistics of support tickets</p>
+        </div>
+        <div class="col-auto">
+            <a asp-action="Create" class="btn btn-primary btn-lg rounded-pill px-4 shadow">
+                <i class="bi bi-plus-lg me-2"></i>Raise New Ticket
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="row g-4 mb-5">
+        <!-- Total Tickets -->
+        <div class="col-md-3">
+            <div class="card card-custom h-100 border-info shadow-lg p-3">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h6 class="text-info text-uppercase font-monospace mb-1" style="font-size: 0.8rem;">Total Tickets</h6>
+                        <h2 class="display-5 fw-bold mb-0 text-white">@Model.TotalTickets</h2>
+                    </div>
+                    <div class="bg-info bg-opacity-20 text-info rounded p-3">
+                        <i class="bi bi-folder-fill fs-3"></i>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <a asp-action="Index" class="text-info text-decoration-none small">
+                        View all tickets <i class="bi bi-arrow-right-short"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Open Tickets -->
+        <div class="col-md-3">
+            <div class="card card-custom h-100 border-warning shadow-lg p-3">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h6 class="text-warning text-uppercase font-monospace mb-1" style="font-size: 0.8rem;">Open</h6>
+                        <h2 class="display-5 fw-bold mb-0 text-white">@Model.OpenTickets</h2>
+                    </div>
+                    <div class="bg-warning bg-opacity-20 text-warning rounded p-3">
+                        <i class="bi bi-envelope-open-fill fs-3"></i>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <a asp-action="Index" asp-route-status="Open" class="text-warning text-decoration-none small">
+                        View open tickets <i class="bi bi-arrow-right-short"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- In Progress Tickets -->
+        <div class="col-md-3">
+            <div class="card card-custom h-100 border-primary shadow-lg p-3">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h6 class="text-primary text-uppercase font-monospace mb-1" style="font-size: 0.8rem;">In Progress</h6>
+                        <h2 class="display-5 fw-bold mb-0 text-white">@Model.InProgressTickets</h2>
+                    </div>
+                    <div class="bg-primary bg-opacity-20 text-primary rounded p-3">
+                        <i class="bi bi-gear-wide-connected fs-3"></i>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <a asp-action="Index" asp-route-status="In Progress" class="text-primary text-decoration-none small">
+                        View active tickets <i class="bi bi-arrow-right-short"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Closed Tickets -->
+        <div class="col-md-3">
+            <div class="card card-custom h-100 border-success shadow-lg p-3">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h6 class="text-success text-uppercase font-monospace mb-1" style="font-size: 0.8rem;">Closed</h6>
+                        <h2 class="display-5 fw-bold mb-0 text-white">@Model.ClosedTickets</h2>
+                    </div>
+                    <div class="bg-success bg-opacity-20 text-success rounded p-3">
+                        <i class="bi bi-archive-fill fs-3"></i>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <a asp-action="Index" asp-route-status="Closed" class="text-success text-decoration-none small">
+                        View closed tickets <i class="bi bi-arrow-right-short"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Navigation / Welcome Box -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-custom p-4 border-secondary shadow-lg">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h3 class="fw-bold text-info"><i class="bi bi-terminal me-2"></i>System Operations</h3>
+                        <p class="text-muted mb-0">Use the navigation bar above or actions on this page to create, edit, filter, and track support tickets. The application communicates with a decoupled Web API service backend.</p>
+                    </div>
+                    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                        <a asp-action="Index" class="btn btn-outline-info rounded-pill px-4 me-2">
+                            <i class="bi bi-list-task me-2"></i>List Table
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

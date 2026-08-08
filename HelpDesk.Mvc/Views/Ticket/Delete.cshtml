@@ -1,0 +1,59 @@
+@model HelpDesk.Mvc.Models.TicketViewModel
+@{
+    ViewData["Title"] = "Delete Ticket";
+}
+
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="h2 fw-bold text-danger"><i class="bi bi-trash3-fill me-2"></i>Delete Ticket #@Model.Id</h1>
+            <p class="text-muted">Are you sure you want to permanently delete this ticket?</p>
+        </div>
+        <div class="col-auto">
+            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                Cancel
+            </a>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-custom border-danger shadow-lg p-4">
+                <div class="alert alert-danger bg-danger bg-opacity-10 border-danger text-danger mb-4">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i><strong>Warning!</strong> This action cannot be undone. All ticket metadata and logs will be permanently deleted from the SQL Server database.
+                </div>
+
+                <h3 class="fw-bold text-white mb-3">@Model.Title</h3>
+                <p class="text-muted mb-4" style="white-space: pre-wrap;">@Model.Description</p>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-6">
+                        <span class="text-muted d-block small">Status</span>
+                        <strong class="text-white">@Model.Status</strong>
+                    </div>
+                    <div class="col-6">
+                        <span class="text-muted d-block small">Priority</span>
+                        <strong class="text-white">@Model.Priority</strong>
+                    </div>
+                    <div class="col-6">
+                        <span class="text-muted d-block small">Raised By</span>
+                        <strong class="text-white">@Model.RaisedBy</strong>
+                    </div>
+                    <div class="col-6">
+                        <span class="text-muted d-block small">Created Date</span>
+                        <strong class="text-white">@Model.CreatedDate.ToLocalTime().ToString("g")</strong>
+                    </div>
+                </div>
+
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-danger rounded-pill px-5 py-2 shadow-lg fw-bold">
+                            <i class="bi bi-trash3-fill me-2"></i>Confirm Delete
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
